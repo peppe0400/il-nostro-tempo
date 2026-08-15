@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Il nostro tempo ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    color: white;
+    text-align: center;
+    background:
+        radial-gradient(circle at top, #6b1639 0%, transparent 45%),
+        linear-gradient(160deg, #28000f, #100006 70%);
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    width: 92%;
+    max-width: 650px;
+    padding: 45px 20px;
+}
+
+.heart {
+    font-size: 55px;
+    margin-bottom: 15px;
+    animation: heartbeat 1.4s infinite;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(32px, 8vw, 52px);
+    font-weight: normal;
+}
+
+.subtitle {
+    margin-top: 12px;
+    font-size: 18px;
+    opacity: 0.75;
+}
+
+.line {
+    width: 70px;
+    height: 1px;
+    background: rgba(255,255,255,0.5);
+    margin: 30px auto;
+}
+
+.counter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.time-box {
+    min-width: 82px;
+    padding: 15px 10px;
+    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(8px);
+}
+
+.number {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.label {
+    display: block;
+    margin-top: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.65;
+}
+
+.message {
+    margin-top: 35px;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.since {
+    margin-top: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    opacity: 0.55;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -40px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+    z-index: 1;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.25;
+    }
+
+    85% {
+        opacity: 0.15;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(25deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 25px 12px;
+    }
+
+    .counter {
+        gap: 8px;
+    }
+
+    .time-box {
+        min-width: 72px;
+        padding: 12px 7px;
+    }
+
+    .number {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="container">
+
+    <div class="heart">❤️</div>
+
+    <h1>Il nostro tempo insieme</h1>
+
+    <div class="subtitle">
+        Ogni secondo con te è parte della nostra storia.
+    </div>
+
+    <div class="line"></div>
+
+    <div class="counter">
+
+        <div class="time-box">
+            <span class="number" id="years">0</span>
+            <span class="label">Anni</span>
+        </div>
+
+        <div class="time-box">
+            <span class="number" id="months">0</span>
+            <span class="label">Mesi</span>
+        </div>
+
+        <div class="time-box">
+            <span class="number" id="days">0</span>
+            <span class="label">Giorni</span>
+        </div>
+
+        <div class="time-box">
+            <span class="number" id="hours">0</span>
+            <span class="label">Ore</span>
+        </div>
+
+        <div class="time-box">
+            <span class="number" id="minutes">0</span>
+            <span class="label">Minuti</span>
+        </div>
+
+        <div class="time-box">
+            <span class="number" id="seconds">0</span>
+            <span class="label">Secondi</span>
+        </div>
+
+    </div>
+
+    <div class="message">
+        E il nostro tempo continua... ♾️❤️
+    </div>
+
+    <div class="since">
+        Dal 5 marzo 2023
+    </div>
+
+</div>
+
+<script>
+
+const startDate = new Date(2023, 2, 5, 0, 0, 0);
+
+function updateCounter() {
+
+    const now = new Date();
+
+    let years = now.getFullYear() - startDate.getFullYear();
+
+    let tempDate = new Date(startDate);
+    tempDate.setFullYear(startDate.getFullYear() + years);
+
+    if (tempDate > now) {
+        years--;
+        tempDate = new Date(startDate);
+        tempDate.setFullYear(startDate.getFullYear() + years);
+    }
+
+    let months =
+        (now.getFullYear() - tempDate.getFullYear()) * 12 +
+        (now.getMonth() - tempDate.getMonth());
+
+    let monthDate = new Date(tempDate);
+    monthDate.setMonth(tempDate.getMonth() + months);
+
+    if (monthDate > now) {
+        months--;
+        monthDate = new Date(tempDate);
+        monthDate.setMonth(tempDate.getMonth() + months);
+    }
+
+    let difference = now - monthDate;
+
+    const days = Math.floor(difference / 86400000);
+    difference %= 86400000;
+
+    const hours = Math.floor(difference / 3600000);
+    difference %= 3600000;
+
+    const minutes = Math.floor(difference / 60000);
+    difference %= 60000;
+
+    const seconds = Math.floor(difference / 1000);
+
+    document.getElementById("years").textContent = years;
+    document.getElementById("months").textContent = months;
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+    document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+    document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+}
+
+updateCounter();
+setInterval(updateCounter, 1000);
+
+
+/* CUORI CHE SALGONO */
+
+const heartContainer = document.getElementById("hearts");
+
+for (let i = 0; i < 14; i++) {
+
+    const heart = document.createElement("div");
+
+    heart.className = "floating-heart";
+    heart.innerHTML = "♥";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (10 + Math.random() * 18) + "px";
+    heart.style.animationDuration = (8 + Math.random() * 10) + "s";
+    heart.style.animationDelay = (Math.random() * 10) + "s";
+
+    heartContainer.appendChild(heart);
+}
+
+</script>
+
+</body>
+</html>
